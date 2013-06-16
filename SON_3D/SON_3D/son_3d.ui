@@ -1,0 +1,29 @@
+<UI version="4.0" >
+ <class>SON_3DClass</class>
+ <widget class="QMainWindow" name="SON_3DClass" >
+  <property name="objectName" >
+   <string notr="true">SON_3DClass</string>
+  </property>
+  <property name="geometry" >
+   <rect>
+	<x>0</x>
+	<y>0</y>
+	<width>600</width>
+	<height>400</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>SON_3D</string>
+  </property>
+  <widget class="QMenuBar" name="menuBar" />
+  <widget class="QToolBar" name="mainToolBar" />
+  <widget class="QWidget" name="centralWidget" />
+  <widget class="QStatusBar" name="statusBar" />
+ </widget>
+ <layoutDefault spacing="6" margin="11" />
+ <pixmapfunction></pixmapfunction>
+ <resources>
+   <include location="son_3d.qrc"/>
+ </resources>
+ <connections/>
+</UI>

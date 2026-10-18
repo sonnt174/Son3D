@@ -302,4 +302,6 @@ son_bool_t polygon3d_clear(son_polygon3d_t *poly)
 		free(tmp);
 	}
 	free(pn);
+
+	return son_TRUE;
 }

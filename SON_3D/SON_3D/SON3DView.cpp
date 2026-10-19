@@ -1,8 +1,9 @@
 #include "SON3DView.h"
-#include "qpainter.h"
+#include <QPainter>
 #include "point3d.h"
 #include "vector3d.h"
-#include "qevent.h"
+#include <QMouseEvent>
+#include <QWheelEvent>
 
 SON3DView::SON3DView(QWidget *parent)
 	: QWidget(parent)

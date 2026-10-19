@@ -1,6 +1,6 @@
 #pragma once
-#include "isystemdrawing.h"
-#include "qpainter.h"
+#include "ISystemDrawing.h"
+#include <QPainter>
 
 class SON3DView;
 

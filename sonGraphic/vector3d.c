@@ -123,7 +123,6 @@ void unit_vector3d(const son_vector3d_t *vect3d,
 void vector3d_inverse(const son_vector3d_t *vect3d,
 					  son_vector3d_t *rev_3d)
 {
-	double magnitude = 0;
 	rev_3d->v[0] = - vect3d->v[0];
 	rev_3d->v[1] = - vect3d->v[1];
 	rev_3d->v[2] = - vect3d->v[2];

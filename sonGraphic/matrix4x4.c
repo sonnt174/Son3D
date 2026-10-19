@@ -159,8 +159,6 @@ son_bool_t matrix4_mult_vector(const son_matrix4x4_t * const m,
 *******************************************************************************/
 son_bool_t matrix4_identity(son_matrix4x4_t *iM)
 {
-	int i = 0;
-	int j = 0;
 	memset (iM, 0, sizeof (son_matrix4x4_t));
 	iM->m[0][0] = iM->m[1][1] = iM->m[2][2] = iM->m[3][3] = 1.0f;
 
@@ -281,10 +279,10 @@ son_bool_t matrix4_scale(son_matrix4x4_t *m,
 						 double s)
 {
 	son_matrix4x4_t sm;
-	son_matrix4x4_t s_matrix =  {s, 0.0, 0.0, 0.0,
-								 0.0, s, 0.0, 0.0,
-								 0.0, 0.0, s, 0.0,
-								 0.0, 0.0, 0.0, 1.0};
+	son_matrix4x4_t s_matrix =  {{{s, 0.0, 0.0, 0.0},
+								  {0.0, s, 0.0, 0.0},
+								  {0.0, 0.0, s, 0.0},
+								  {0.0, 0.0, 0.0, 1.0}}};
 
 	matrix4_mult(m, &s_matrix, &sm);
 	matrix4_cpy(&sm, m);

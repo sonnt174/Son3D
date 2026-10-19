@@ -214,7 +214,7 @@ void point3d_rotate(son_point3d_t *p,
 					double x, double y, double z,
 					double theta)
 {
-	son_vector3d_t v = {x, y, z};
+	son_vector3d_t v = {{x, y, z}};
 	point3d_rotatev(p, &v, theta);
 }
 

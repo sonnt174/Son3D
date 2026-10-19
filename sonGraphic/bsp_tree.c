@@ -28,7 +28,6 @@ son_bool_t bsp_add(bsp_node **tree, const son_polygon3d_t *polygon)
 {
 	son_bool_t rc = son_FALSE;
 	polygon3d_node *poly_node;
-	bsp_node *n;
 	classi_poly_plane_t classi;
 	son_polygon3d_t front, back;
 	node2 *h_poly;

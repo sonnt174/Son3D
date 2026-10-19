@@ -2,6 +2,7 @@
 #define __SON_COMMON_TYPE_H__
 
 #include "stdlib.h"
+#include "string.h"
 #include "link2.h"
 
 #ifdef __cplusplus

@@ -201,7 +201,6 @@ son_bool_t polygon3d_classify(const son_polygon3d_t *h_poly,
 							  son_polygon3d_t *back)
 {
 	/* hyperplane */
-	son_bool_t rc;
 	son_vector3d_t n, v;
 	son_point3d_t p;
 	son_point3d_t A, B;

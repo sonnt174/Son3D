@@ -19,7 +19,7 @@ public:
 	virtual void DrawSence(QPainter *painter);
 	virtual void Look ();
 	void clear_node();
-	double QtDrawing3d::ComputeLight(const son_polygon3d_t *polygon);
+	double ComputeLight(const son_polygon3d_t *polygon);
 
 private:
 	virtual void DrawSence(const bsp_node *tree, QPainter *painter);

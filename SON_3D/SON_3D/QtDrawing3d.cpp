@@ -1,4 +1,5 @@
 #include "QtDrawing3d.h"
+#include <QPainterPath>
 #include "stack"
 
 QtDrawing3d::QtDrawing3d(void):

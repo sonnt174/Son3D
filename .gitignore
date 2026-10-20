@@ -1,0 +1,20 @@
+# Visual Studio build output
+Debug/
+Release/
+x64/
+ipch/
+GeneratedFiles/
+
+# Visual Studio per-user / database files
+*.sdf
+*.opensdf
+*.suo
+*.user
+*.gpState
+*.VC.db
+*.VC.opendb
+.vs/
+
+# CMake build directories
+build/
+cmake-build-*/

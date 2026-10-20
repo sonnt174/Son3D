@@ -1,15 +1,18 @@
 #include "SON3DView.h"
-#include "qpainter.h"
+#include <QPainter>
+#include <QPainterPath>
 #include "point3d.h"
 #include "vector3d.h"
-#include "qevent.h"
+#include <QMouseEvent>
+#include <QWheelEvent>
 
 SON3DView::SON3DView(QWidget *parent)
 	: QWidget(parent)
 {
 	ui.setupUi(this);
-	m_painter = &QPainter(this);
-	qtDrawing3d = new QtDrawing3d(&QPainter(this), this);
+	/* Không mở QPainter ở đây: QPainter chỉ được mở trong paintEvent.
+	   QtDrawing3d nhận painter của lần paintEvent hiện tại qua tham số. */
+	qtDrawing3d = new QtDrawing3d(this);
 	/* Set Background */
 	QPalette bgPallete(QColor(0,0,0));
 	setPalette(bgPallete);
@@ -87,13 +90,13 @@ void SON3DView::drawCube(int i)
 	/* cube */
 	 dd += i;
 	son_point3d_t p3d0 = {0,0,0};
-	son_point3d_t p3d1 = {0, dd, 0};
-	son_point3d_t p3d2 = {dd, dd, 0};
-	son_point3d_t p3d3 = {dd, 0, 0};
-	son_point3d_t p3d4 = {0, 0, dd};
-	son_point3d_t p3d5 = {0, dd, dd};
-	son_point3d_t p3d6 = {dd, dd, dd};
-	son_point3d_t p3d7 = {dd, 0, dd};
+	son_point3d_t p3d1 = {0, static_cast<double>(dd), 0};
+	son_point3d_t p3d2 = {static_cast<double>(dd), static_cast<double>(dd), 0};
+	son_point3d_t p3d3 = {static_cast<double>(dd), 0, 0};
+	son_point3d_t p3d4 = {0, 0, static_cast<double>(dd)};
+	son_point3d_t p3d5 = {0, static_cast<double>(dd), static_cast<double>(dd)};
+	son_point3d_t p3d6 = {static_cast<double>(dd), static_cast<double>(dd), static_cast<double>(dd)};
+	son_point3d_t p3d7 = {static_cast<double>(dd), 0, static_cast<double>(dd)};
 
 	son_point3d_t f[4];
 	/* face 1*/
@@ -253,7 +256,7 @@ void SON3DView::paintEvent(QPaintEvent *event)
 	matrix4_identity(&QtDrawing3d::m_modelViewMatrix);
 	//qtDrawing3d->Look();
 	son_vector3d_t vx = {width()/2.0, 0.0, 0.0};
-	son_vector3d_t vy = {0.0, height()/2, 0.0};
+	son_vector3d_t vy = {0.0, static_cast<double>(height()/2), 0.0};
 	rotate(m_xRot, vx);
 	rotate(m_yRot, vy);
 	//translate(0, 0, eye.v[2]);
@@ -303,8 +306,8 @@ void SON3DView::scale(double factor)
 void SON3DView::mouseMoveEvent(QMouseEvent *event)
 {
 	printf("%s", __FUNCTION__);
-	double delX = event->posF().x() - m_lastX;
-	double delY = event->posF().y() - m_lastY;
+	double delX = event->position().x() - m_lastX;
+	double delY = event->position().y() - m_lastY;
 	
 	if (m_mouse_prss_type == mouse_pressed_t::MOUSE_LEFT_PRESSED) // rotate
 	{
@@ -316,8 +319,8 @@ void SON3DView::mouseMoveEvent(QMouseEvent *event)
 		m_translateY += delY;
 	}
 
-	m_lastX = event->posF().x();
-	m_lastY = event->posF().y();
+	m_lastX = event->position().x();
+	m_lastY = event->position().y();
 
 	update();
 }
@@ -331,8 +334,8 @@ void SON3DView::mousePressEvent(QMouseEvent *event)
 		m_mouse_prss_type = mouse_pressed_t::MOUSE_LEFT_PRESSED;
 	}
 
-	m_lastX = event->posF().x();
-	m_lastY = event->posF().y();
+	m_lastX = event->position().x();
+	m_lastY = event->position().y();
 }
 
 void SON3DView::mouseReleaseEvent(QMouseEvent *event)
@@ -342,10 +345,12 @@ void SON3DView::mouseReleaseEvent(QMouseEvent *event)
 
 void SON3DView::wheelEvent(QWheelEvent *event)
 {
-	double numDegrees = event->delta() / 8.0;
+	const QPoint angleDelta = event->angleDelta();
+	const bool horizontal = (angleDelta.y() == 0 && angleDelta.x() != 0);
+	double numDegrees = (horizontal ? angleDelta.x() : angleDelta.y()) / 8.0;
 	double numSteps = numDegrees / 15.0;
-	QPoint point = event->globalPos();
-	if (event->orientation() == Qt::Horizontal) {
+	QPoint point = event->globalPosition().toPoint();
+	if (horizontal) {
 		printf("%s", __FUNCTION__);
 	} else {
 		m_factor *= (float)pow( 2, ( numSteps ) * 0.1f );

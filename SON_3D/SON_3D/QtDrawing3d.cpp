@@ -1,9 +1,10 @@
 #include "QtDrawing3d.h"
+#include <QPainterPath>
 #include "stack"
 
 QtDrawing3d::QtDrawing3d(void):
 						ISystemDrawing(),
-						painter(NULL)
+						refView(NULL)
 {
 	m_n.v[0] = 0.0f;
 	m_n.v[1] = 0.0f;
@@ -16,7 +17,7 @@ QtDrawing3d::QtDrawing3d(void):
 	m_color = QColor(Qt::blue);
 }
 
-QtDrawing3d::QtDrawing3d(QPainter *pPainter, SON3DView *view)
+QtDrawing3d::QtDrawing3d(SON3DView *view)
 {
 	m_n.v[0] = 0.0f;
 	m_n.v[1] = 0.0f;
@@ -26,7 +27,6 @@ QtDrawing3d::QtDrawing3d(QPainter *pPainter, SON3DView *view)
 	m_p.v[1] = 0.0f;
 	m_p.v[2] = 100.0f;
 
-	painter = pPainter;
 	refView = view;
 	m_color = QColor(Qt::blue);
 	eye.v[0] = 0;

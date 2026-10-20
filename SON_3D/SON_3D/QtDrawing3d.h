@@ -1,6 +1,6 @@
 #pragma once
-#include "isystemdrawing.h"
-#include "qpainter.h"
+#include "ISystemDrawing.h"
+#include <QPainter>
 
 class SON3DView;
 
@@ -9,7 +9,7 @@ class QtDrawing3d :
 {
 public:
 	QtDrawing3d(void);
-	QtDrawing3d(QPainter *pPainter, SON3DView *view);
+	QtDrawing3d(SON3DView *view);
 	virtual ~QtDrawing3d(void);
 
 	virtual void DrawPoint(const son_point3d_t &);
@@ -19,13 +19,12 @@ public:
 	virtual void DrawSence(QPainter *painter);
 	virtual void Look ();
 	void clear_node();
-	double QtDrawing3d::ComputeLight(const son_polygon3d_t *polygon);
+	double ComputeLight(const son_polygon3d_t *polygon);
 
 private:
 	virtual void DrawSence(const bsp_node *tree, QPainter *painter);
 	virtual void DrawPolygon(const bsp_node *tree, QPainter *painter);
 
-	QPainter *painter;
 	SON3DView *refView;
 	QColor m_color;
 	/* screen plane*/

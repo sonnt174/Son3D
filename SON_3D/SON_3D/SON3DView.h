@@ -21,16 +21,16 @@ class SON3DView : public QWidget
 public:
 	SON3DView(QWidget *parent = 0);
 	~SON3DView();
-	void SON3DView::paintEvent(QPaintEvent *painter);
+	void paintEvent(QPaintEvent *painter);
 	void drawAxises(QPainter *painter);
-	void SON3DView::drawGrid(float size, float step, QPainter *painter);
+	void drawGrid(float size, float step, QPainter *painter);
 	void drawTriangle(QPainter *painter);
 	void initTriangle();
 	void rotate(double angle, const son_vector3d_t &v);
 	void translate(double x, double y, double z);
-	void SON3DView::scale(double factor);
+	void scale(double factor);
 
-	void SON3DView::drawLine3d(double x1, double y1, double z1,
+	void drawLine3d(double x1, double y1, double z1,
 		double x2, double y2, double z2,
 		QPainter *painter);
 
@@ -51,7 +51,6 @@ private:
 	son_point3d_t m_triangle[3];
 	//son_matrix4x4_t m_modelViewMatrix;
 	QtDrawing3d *qtDrawing3d;
-	QPainter *m_painter;
 	int dd;
 };
 

@@ -16,3 +16,17 @@ target_link_libraries(test_qtdrawing3d PRIVATE sonGraphic Qt6::Widgets Qt6::Test
 
 add_test(NAME qtdrawing3d COMMAND test_qtdrawing3d)
 set_tests_properties(qtdrawing3d PROPERTIES ENVIRONMENT QT_QPA_PLATFORM=offscreen)
+
+# Characterization test cho widget SON3DView (executable riêng: trạng thái tĩnh dùng chung).
+add_executable(test_son3dview
+    test_son3dview.cpp
+    ../SON_3D/SON3DView.cpp
+    ../SON_3D/QtDrawing3d.cpp
+    ../SON_3D/ISystemDrawing.cpp
+    ../SON_3D/son_3d_view.ui
+)
+target_include_directories(test_son3dview PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../SON_3D)
+target_link_libraries(test_son3dview PRIVATE sonGraphic Qt6::Widgets Qt6::Test)
+
+add_test(NAME son3dview COMMAND test_son3dview)
+set_tests_properties(son3dview PROPERTIES ENVIRONMENT QT_QPA_PLATFORM=offscreen)

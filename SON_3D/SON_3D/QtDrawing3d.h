@@ -9,7 +9,7 @@ class QtDrawing3d :
 {
 public:
 	QtDrawing3d(void);
-	QtDrawing3d(QPainter *pPainter, SON3DView *view);
+	QtDrawing3d(SON3DView *view);
 	virtual ~QtDrawing3d(void);
 
 	virtual void DrawPoint(const son_point3d_t &);
@@ -25,7 +25,6 @@ private:
 	virtual void DrawSence(const bsp_node *tree, QPainter *painter);
 	virtual void DrawPolygon(const bsp_node *tree, QPainter *painter);
 
-	QPainter *painter;
 	SON3DView *refView;
 	QColor m_color;
 	/* screen plane*/

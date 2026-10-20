@@ -10,9 +10,9 @@ SON3DView::SON3DView(QWidget *parent)
 	: QWidget(parent)
 {
 	ui.setupUi(this);
-	QPainter painter(this);
-	m_painter = &painter;
-	qtDrawing3d = new QtDrawing3d(&painter, this);
+	/* Không mở QPainter ở đây: QPainter chỉ được mở trong paintEvent.
+	   QtDrawing3d nhận painter của lần paintEvent hiện tại qua tham số. */
+	qtDrawing3d = new QtDrawing3d(this);
 	/* Set Background */
 	QPalette bgPallete(QColor(0,0,0));
 	setPalette(bgPallete);

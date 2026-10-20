@@ -51,7 +51,6 @@ private:
 	son_point3d_t m_triangle[3];
 	//son_matrix4x4_t m_modelViewMatrix;
 	QtDrawing3d *qtDrawing3d;
-	QPainter *m_painter;
 	int dd;
 };
 

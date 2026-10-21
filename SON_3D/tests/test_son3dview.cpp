@@ -203,11 +203,12 @@ private slots:
         xRot += 20;
         verifyPaintState();
 
-        // mouseReleaseEvent không xoá trạng thái nhấn: kéo tiếp vẫn quay.
+        // Thả chuột xoá trạng thái nhấn: kéo tiếp bằng nút giữa (mousePressEvent không
+        // xử lý nút giữa) không được quay hay dịch cảnh.
         sendMouse(QEvent::MouseButtonRelease, Qt::LeftButton, Qt::NoButton, 130, 70);
-        sendMouse(QEvent::MouseMove, Qt::NoButton, Qt::LeftButton, 125, 80);
-        yRot -= 5;
-        xRot += 10;
+        sendMouse(QEvent::MouseButtonPress, Qt::MiddleButton, Qt::MiddleButton, 130, 70);
+        sendMouse(QEvent::MouseMove, Qt::NoButton, Qt::MiddleButton, 125, 80);
+        sendMouse(QEvent::MouseButtonRelease, Qt::MiddleButton, Qt::NoButton, 125, 80);
         verifyPaintState();
     }
 

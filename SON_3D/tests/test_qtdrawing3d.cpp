@@ -101,6 +101,22 @@ private slots:
         QVERIFY(qAbs(lightOf(pts) - 0.3) < 1e-12);
     }
 
+    // Pháp tuyến biến đổi bằng phần tuyến tính (3x3) của modelViewMatrix rồi chuẩn hoá:
+    // tịnh tiến (cột 3) và phóng to đều (paintEvent nhân cả ma trận với m_factor*100)
+    // không đổi ánh sáng của polygon có pháp tuyến (0,0,1).
+    void computeLight_ignoresTranslationAndUniformScale()
+    {
+        son_point3d_t pts[3] = {{{0, 0, 0}}, {{1, 0, 0}}, {{1, 1, 0}}};
+        ISystemDrawing::m_modelViewMatrix.m[0][3] = 40.0;
+        ISystemDrawing::m_modelViewMatrix.m[1][3] = -25.0;
+        ISystemDrawing::m_modelViewMatrix.m[2][3] = 7.0;
+        QVERIFY(qAbs(lightOf(pts) - kShadeZ) < 1e-12);
+
+        matrix4_identity(&ISystemDrawing::m_modelViewMatrix);
+        matrix4_scale(&ISystemDrawing::m_modelViewMatrix, 100.0);
+        QVERIFY(qAbs(lightOf(pts) - kShadeZ) < 1e-12);
+    }
+
     // ---- DrawPolygon -> BSP tĩnh --------------------------------------------
 
     void drawPolygon_addsPolygonWithColorToWorld()
@@ -164,9 +180,8 @@ private slots:
         QCOMPARE(img.pixelColor(5, 30), QColor(Qt::white));
     }
 
-    // Cả hai polygon trong danh sách của một node đều được vẽ, theo thứ tự danh sách.
-    // QPainterPath được dựng MỘT lần cho cả node nên subpath của polygon trước vẫn
-    // nằm trong path khi tô polygon sau: lần tô cuối (màu polygon 2) phủ cả hai vùng.
+    // Cả hai polygon trong danh sách của một node đều được vẽ, theo thứ tự danh sách,
+    // mỗi polygon tô bằng MÀU CỦA CHÍNH NÓ (không bị polygon sau tô lại).
     void drawSence_drawsEveryPolygonOfNodeInListOrder()
     {
         ISystemDrawing::eye.v[0] = 0;
@@ -177,7 +192,7 @@ private slots:
 
         QCOMPARE((int)ISystemDrawing::s_world->polygons.count, 2);
         QImage img = render();
-        QCOMPARE(img.pixelColor(20, 20), QColor(0, 129, 0)); // vùng polygon 1, màu 2
+        QCOMPARE(img.pixelColor(20, 20), QColor(129, 64, 32)); // vùng polygon 1, màu 1
         QCOMPARE(img.pixelColor(70, 70), QColor(0, 129, 0)); // vùng polygon 2
         QCOMPARE(img.pixelColor(50, 50), QColor(Qt::white)); // giữa hai vùng
     }
@@ -224,8 +239,7 @@ private slots:
     }
 
     // modelViewMatrix được dùng để chiếu điểm: dịch x thêm 40 thì vùng tô dịch theo.
-    // Cột dịch chuyển cũng được áp vào pháp tuyến khi tính sáng (n = (40,0,1) chưa
-    // chuẩn hoá) nên dot lớn và shade bị kẹp ở 0.9.
+    // Pháp tuyến là HƯỚNG: phép tịnh tiến không đổi ánh sáng, shade vẫn = kShadeZ.
     void drawSence_projectsThroughModelViewMatrix()
     {
         ISystemDrawing::eye.v[0] = 0;
@@ -236,7 +250,7 @@ private slots:
 
         QImage img = render();
         QCOMPARE(img.pixelColor(30, 30), QColor(Qt::white));
-        QCOMPARE(img.pixelColor(70, 30), QColor(180, 90, 45)); // = color * 0.9
+        QCOMPARE(img.pixelColor(70, 30), QColor(129, 64, 32)); // = color * kShadeZ
     }
 
     // ---- Look() -------------------------------------------------------------

@@ -332,6 +332,8 @@ void SON3DView::mousePressEvent(QMouseEvent *event)
 		m_mouse_prss_type = mouse_pressed_t::MOUSE_RIGHT_PRESSED;
 	} else if (event->button() == Qt::LeftButton) {
 		m_mouse_prss_type = mouse_pressed_t::MOUSE_LEFT_PRESSED;
+	} else {
+		m_mouse_prss_type = mouse_pressed_t::UNKNOWN;
 	}
 
 	m_lastX = event->position().x();
@@ -341,6 +343,7 @@ void SON3DView::mousePressEvent(QMouseEvent *event)
 void SON3DView::mouseReleaseEvent(QMouseEvent *event)
 {
 	printf("%s", __FUNCTION__);
+	m_mouse_prss_type = mouse_pressed_t::UNKNOWN;
 }
 
 void SON3DView::wheelEvent(QWheelEvent *event)

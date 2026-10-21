@@ -213,8 +213,16 @@ double QtDrawing3d::ComputeLight(const son_polygon3d_t *polygon) {
 	static	son_vector3d_t light ={(400.0), (800.0), (600.0)};	//	lighting vector
 	unit_vector3d(&light, &light);
 	polygon3d_get_plane(polygon, &n, &p);
-	matrix4_mult_vector(&m_modelViewMatrix, &n, &n);
-	dot_product_3d(&n, &light, &dot);
+
+	//	pháp tuyến là HƯỚNG: chỉ biến đổi bằng phần tuyến tính 3x3 của ma trận
+	//	(bỏ cột tịnh tiến), rồi chuẩn hoá để phép phóng to đều không đổi ánh sáng
+	son_vector3d_t tn;
+	for (int i = 0; i < 3; ++i)
+		tn.v[i] = m_modelViewMatrix.m[i][0] * n.v[0]
+				+ m_modelViewMatrix.m[i][1] * n.v[1]
+				+ m_modelViewMatrix.m[i][2] * n.v[2];
+	unit_vector3d(&tn, &tn);
+	dot_product_3d(&tn, &light, &dot);
 
 	double	shade = (dot) * (0.8) + (0.2);  //	compute the lighting on this polygon
 	if (shade < (0.3)) shade = (0.3);  //	clamp it to the ambient factor

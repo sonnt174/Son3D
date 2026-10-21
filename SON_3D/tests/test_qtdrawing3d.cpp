@@ -180,9 +180,8 @@ private slots:
         QCOMPARE(img.pixelColor(5, 30), QColor(Qt::white));
     }
 
-    // Cả hai polygon trong danh sách của một node đều được vẽ, theo thứ tự danh sách.
-    // QPainterPath được dựng MỘT lần cho cả node nên subpath của polygon trước vẫn
-    // nằm trong path khi tô polygon sau: lần tô cuối (màu polygon 2) phủ cả hai vùng.
+    // Cả hai polygon trong danh sách của một node đều được vẽ, theo thứ tự danh sách,
+    // mỗi polygon tô bằng MÀU CỦA CHÍNH NÓ (không bị polygon sau tô lại).
     void drawSence_drawsEveryPolygonOfNodeInListOrder()
     {
         ISystemDrawing::eye.v[0] = 0;
@@ -193,7 +192,7 @@ private slots:
 
         QCOMPARE((int)ISystemDrawing::s_world->polygons.count, 2);
         QImage img = render();
-        QCOMPARE(img.pixelColor(20, 20), QColor(0, 129, 0)); // vùng polygon 1, màu 2
+        QCOMPARE(img.pixelColor(20, 20), QColor(129, 64, 32)); // vùng polygon 1, màu 1
         QCOMPARE(img.pixelColor(70, 70), QColor(0, 129, 0)); // vùng polygon 2
         QCOMPARE(img.pixelColor(50, 50), QColor(Qt::white)); // giữa hai vùng
     }

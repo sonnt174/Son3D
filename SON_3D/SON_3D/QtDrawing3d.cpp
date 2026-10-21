@@ -175,11 +175,12 @@ void QtDrawing3d::DrawPolygon(const bsp_node *tree, QPainter *painter)
 	static int colorflag = 0; 
 	double shade;
 
-	QPainterPath path;
 	son_point3d_t mv;
 	pn = (polygon3d_node *)head_node(&tree->polygons);
 
 	for (j = 0; j < n_pol; j++) {
+		//	mỗi polygon cần path riêng, nếu không polygon trước bị tô lại bằng màu của polygon sau
+		QPainterPath path;
 		polygon3d_get_points(&pn->polygon3d, points);
 		matrix4_mult_vector(&m_modelViewMatrix, &points[0], &mv);
 		proj_point_2_plane(&mv,
